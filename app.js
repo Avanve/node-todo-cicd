@@ -24,6 +24,11 @@ app.use(methodOverride(function (req, res) {
 let todolist = [];
 
 /* The to do list and the form are displayed */
+app.set('views', './views');
+app.set('view engine', 'ejs');
+ res.render('todo');
+
+
 app.get('/todo', function (req, res) {
         res.render('todo.ejs', {
             todolist,
