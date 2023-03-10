@@ -6,6 +6,9 @@ const express = require('express'),
     sanitizer = require('sanitizer'),
     app = express(),
     port = 8000
+    app.set('view engine', 'ejs');    
+    app.set('views', __dirname + '/views');
+
 
 app.use(bodyParser.urlencoded({
     extended: false
@@ -24,11 +27,6 @@ app.use(methodOverride(function (req, res) {
 let todolist = [];
 
 /* The to do list and the form are displayed */
-app.set('views', './views');
-app.set('view engine', 'ejs');
- res.render('todo');
-
-
 app.get('/todo', function (req, res) {
         res.render('todo.ejs', {
             todolist,
