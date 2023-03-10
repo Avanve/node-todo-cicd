@@ -6,9 +6,10 @@ const express = require('express'),
     sanitizer = require('sanitizer'),
     app = express(),
     port = 8000
-    app.set('view engine', 'ejs');    
+    
     app.set('views', __dirname + '/views');
-
+    app.set('view engine', 'ejs');    
+    res.render('todo');
 
 app.use(bodyParser.urlencoded({
     extended: false
