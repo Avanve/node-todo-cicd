@@ -7,10 +7,6 @@ const express = require('express'),
     app = express(),
     port = 8000
     
-    app.set('views', __dirname + '/views');
-    app.set('view engine', 'ejs');    
-    res.render('todo');
-
 app.use(bodyParser.urlencoded({
     extended: false
 }));
