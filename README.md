@@ -14,49 +14,53 @@ Run these commands:
 
 1 Create AWS EC2 instance
 
-2 sudo apt update
+2 Install jenkins on EC2
     
-3  sudo apt install openjdk-11-jre
+    sudo apt update
+    
+    sudo apt install openjdk-11-jre
 
-4  java -version
+    java -version
 
-5  curl -fsSL https://pkg.jenkins.io/debian/jenkins.io.key | sudo tee \   /usr/share/keyrings/jenkins-keyring.asc > /dev/null 
+    curl -fsSL https://pkg.jenkins.io/debian/jenkins.io.key | sudo tee \   /usr/share/keyrings/jenkins-keyring.asc > /dev/null 
+    
+    echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \   https://pkg.jenkins.io/debian binary/ | sudo tee \   /etc/apt/sources.list.d/jenkins.list >            /dev/null
 
-6  echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \   https://pkg.jenkins.io/debian binary/ | sudo tee \   /etc/apt/sources.list.d/jenkins.list > /dev/null
+     sudo apt-get update 
+    
+     sudo apt-get install jenkins
+     
+     sudo systemctl enable jenkins
 
-7  sudo apt-get update 
+     sudo systemctl start jenkins
 
-8  sudo apt-get install jenkins
+     sudo systemctl status jenkins
 
-9  sudo systemctl enable jenkins
+     sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 
-10  sudo systemctl start jenkins
+     history
 
-11  sudo systemctl status jenkins
+3 Write Dockerfile
 
-12  sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+  sudo apt install docker.io
 
-13  history
+  FROM node:12.2.0-alpine
 
-sudo apt install docker.io
+  WORKDIR app
 
-FROM node:12.2.0-alpine
+  COPY . .
 
-WORKDIR app
+  RUN npm install
 
-COPY . .
+  EXPOSE 8000
 
-RUN npm install
+  CMD ["node","app.js"]
 
-EXPOSE 8000
+  docker build . -t node-app
 
-CMD ["node","app.js"]
+  sudo usermod -a -G docker $USER
 
-docker build . -t node-app
-
-sudo usermod -a -G docker $USER
-
-docker run -d --name node-todo-app -p 8000:8000 todo-node-app
+  docker run -d --name node-todo-app -p 8000:8000 todo-node-app
 
 Got to jenkins job
 
