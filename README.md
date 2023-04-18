@@ -42,29 +42,31 @@ Run these commands:
 
 3 Write Dockerfile
 
-  sudo apt install docker.io
+    sudo apt install docker.io
 
-  FROM node:12.2.0-alpine
+    FROM node:12.2.0-alpine
 
-  WORKDIR app
+    WORKDIR app
 
-  COPY . .
+    COPY . .
 
-  RUN npm install
+    RUN npm install
 
-  EXPOSE 8000
+    EXPOSE 8000
 
-  CMD ["node","app.js"]
+    CMD ["node","app.js"]
 
-  docker build . -t node-app
+4 Build DcokerFile
 
-  sudo usermod -a -G docker $USER
+    docker build . -t node-app
 
-  docker run -d --name node-todo-app -p 8000:8000 todo-node-app
+    sudo usermod -a -G docker $USER
 
-Got to jenkins job
+    docker run -d --name node-todo-app -p 8000:8000 todo-node-app
 
-Execute shell 
+5 Go to jenkins job
+
+6 Execute shell 
 
 docker build . -t node-app-todo
 
