@@ -1,4 +1,4 @@
-# Jenkins CICD with Github Integration
+# Jenkins CICD with Docker, EC2 and Github Integration
 
 # Pre-requsits
 
@@ -40,9 +40,11 @@ Run these commands:
 
      history
 
-3 Write Dockerfile
+3 Install Docker on EC2
+  
+     sudo apt install docker.io
 
-    sudo apt install docker.io
+4 Write Dockerfile
 
     FROM node:12.2.0-alpine
 
@@ -51,6 +53,7 @@ Run these commands:
     COPY . .
 
     RUN npm install
+    
 
     EXPOSE 8000
 
@@ -61,16 +64,44 @@ Run these commands:
     docker build . -t node-app
 
     sudo usermod -a -G docker $USER
+    
+    sudo reboot
+    
+    cd /var/lib/jenkins/secrets/initialAdminPassword
+    
+    docker build . -t node-app-todo
 
-    docker run -d --name node-todo-app -p 8000:8000 todo-node-app
+    docker run -d --name node-app-container -p 8000:8000 node-app-todo
+    
+    docker kill cintainerId
+
+    
 
 5 Go to jenkins job
 
-6 Execute shell 
+6 To automate docker build go to --> ADD Build Steps --> Execute shell 
 
-docker build . -t node-app-todo
+     docker build . -t node-app-todo
 
-docker run -d --name node-app-container -p 8000:8000 node-app-todo
+  
+     docker run -d --name node-app-container -p 8000:8000 node-app-todo
+     
+7 Add Webhook
+
+    Install Webhook plugin
+    
+    Configure webhook on Github
+    
+    add webhook
+    
+8 Go to Confiure Jenkins --> Build Trigeers --->add Github hook triger  for Gitscm polling
+
+When code changes webhook triggers and Jenkins build, Test and Deploy application automataically on EC2
+    
+    
+    
+    
+
 
 
 
